@@ -23,13 +23,14 @@ public class PaymentControllerIntegrationTest {
                     .baseUrl("http://localhost:" + port)
                     .build()
                     .post()
-                    .uri("/execute-payment")
+                    .uri("/api/execute-payment")
                     .bodyValue(body)
                 .exchange()
                 .expectStatus().is2xxSuccessful()
                 .expectBody(ExecutePaymentResponseDTO.class).returnResult()
                 .getResponseBody();
 
+        Assertions.assertNotNull(responseBody);
         Assertions.assertEquals(123L, responseBody.paymentId());
         Assertions.assertTrue(responseBody.status().contentEquals("success")
                 || responseBody.status().contentEquals("failure"));
